@@ -17,13 +17,13 @@ jobs:
     runs-on: ubuntu-latest
 
     steps:
-      - name: Checkout code
+      - name: Checkout
         uses: actions/checkout@v4
 
       - name: Set up Python
         uses: actions/setup-python@v5
         with:
-          python-version: '3.12'
+          python-version: "3.12"
 
       - name: Install build tools
         run: |
@@ -35,5 +35,8 @@ jobs:
       - name: Check package
         run: twine check dist/*
 
-      - name: Publish package
-        run: twine upload --repository github dist/*
+      - name: Publish to GitHub Packages
+        run: |
+          twine upload \
+            --repository-url https://upload.github.com/djenajj/final-cicd/packages \
+            dist/*
