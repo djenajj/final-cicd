@@ -38,5 +38,5 @@ jobs:
       - name: Publish to GitHub Packages
         run: |
           twine upload \
-            --repository-url https://upload.github.com/djenajj/final-cicd/packages \
+            --repository-url https://upload.packages.github.com/djenajj/final-cicd \
             dist/*
