@@ -1,0 +1,41 @@
+name: CI
+
+on:
+  push:
+    branches: [main, "feature/**"]
+  pull_request:
+    branches: [main]
+
+jobs:
+  test:
+    runs-on: ubuntu-latest
+
+    strategy:
+      matrix:
+        python-version: ["3.9", "3.10", "3.11", "3.12"]
+
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v4
+
+      - name: Set up Python
+        uses: actions/setup-python@v5
+        with:
+          python-version: ${{ matrix.python-version }}
+
+      - name: Install dependencies
+        run: |
+          pip install -e .
+          pip install -r requirements-dev.txt
+
+      - name: Black check
+        run: black --check mathutils
+
+      - name: Isort check
+        run: isort --check mathutils
+
+      - name: Flake8
+        run: flake8 mathutils
+
+      - name: Run tests with coverage
+        run: pytest --cov=mathutils --cov-fail-under=80
